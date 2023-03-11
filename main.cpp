@@ -438,21 +438,23 @@ void TwoPlayer(){
 	int touchNum = 0;
 	int acceeX = 0;
 	int acceeY = 0;
+
 	while(game_running) 
 	{
-		if(player1Point == 2)isAIWin = true;
-		else if(player2Point == 2)isPlayerWin = true;
+		Uint32 startTime = SDL_GetTicks();
+		const Uint8 *state = SDL_GetKeyboardState(NULL);
+		if(player1Point == 2)isPlayer1Win = true;
+		else if(player2Point == 2)isPlayer2Win = true;
 		if(isPlayer1Win || isPlayer2Win){
 			break;
 		}
-		Uint32 startTime = SDL_GetTicks();
-		const Uint8 *state = SDL_GetKeyboardState(NULL);
+		
 
 		while( SDL_PollEvent( &e ) != 0 )
 		{
 			if( e.type == SDL_QUIT ) {
-				quit = true;
 				game_running = false;
+				quit = true;
 			}
 		}
 
@@ -523,7 +525,7 @@ void TwoPlayer(){
 
 
 		//  player get a point and spawn new ball
-		if (ballRect.y >= SCREEN_HEIGHT-20 && ballRect.x >= GOAL_LIMIT_LEFT && ballRect.x <= GOAL_LIMIT_RIGHT)
+		if (ballRect.y >= SCREEN_HEIGHT-35 && ballRect.x >= GOAL_LIMIT_LEFT && ballRect.x <= GOAL_LIMIT_RIGHT)
 		{
 			player2Point++;
 			dx = 5 * (touchNum%2 ? 1 : (-1) );
@@ -531,7 +533,7 @@ void TwoPlayer(){
 			cout << "Play 1: " << player1Point << "- " << "Play 2: " << player2Point << endl;
 			ballRect = {SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 20, 20};
 		}
-		if (ballRect.y <= 20 && ballRect.x >= GOAL_LIMIT_LEFT && ballRect.x <= GOAL_LIMIT_RIGHT) 
+		if (ballRect.y <= 30 && ballRect.x >= GOAL_LIMIT_LEFT && ballRect.x <= GOAL_LIMIT_RIGHT) 
 		{
 			player1Point++;
 			dx = 5 * (touchNum%2 ? 1 : (-1) );
@@ -569,12 +571,12 @@ void TwoPlayer(){
 
 		}
 		    
-		if (ballRect.x >= SCREEN_WIDTH-50 || ballRect.x <= 20)
+		if (ballRect.x >= SCREEN_WIDTH-50 || ballRect.x <= 25)
 		{
 			dx = dx * -1;
 			// touchNum += 1;
 		}
-		else if (ballRect.y >= SCREEN_HEIGHT-25 || ballRect.y <= 25) 
+		else if (ballRect.y >= SCREEN_HEIGHT-30 || ballRect.y <= 25) 
 		{
 			dy = dy * -1;
 			// touchNum += 1;
@@ -595,7 +597,7 @@ void TwoPlayer(){
 		}
 
 		// print some info to check
-		//cout << touchNum << "  dx " << dx << "   dy " <<dy << endl ;
+		// cout << touchNum << "  dx " << dx << "   dy " <<dy << endl ;
 
 	}         
 }
